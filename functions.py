@@ -1,4 +1,24 @@
 import numpy as np
+from multiprocessing import Process
+from tkinter import *
+
+
+def file_glider(file, root):
+        file.set('glider.txt')
+        root.destroy()
+
+
+
+def file_pulsar(file, root):
+        file.set('pulsar.txt')
+        root.destroy()
+
+
+
+def file_gun(file, root):
+        file.set('gosper-glider-gun.txt')
+        root.destroy()
+
 
 
 def check_neighbours(board):
@@ -65,6 +85,32 @@ def check_neighbours(board):
             
     board = temp_array.copy()
     return board
-#IndexError 
-#print(tab)
+
+def game_window():
+    root = Tk()
+    
+    file = StringVar()
+    header = Label(root, text='Which pattern do you want to see evolve?').grid(row=0, column=1, columnspan=2)
+    
+    
+    # Making buttons
+    button_glider = Button(root, text='Glider', command=lambda: file_glider(file, root))
+    button_glider_gun = Button(root, text='Gosper_glider_gun', command=lambda: file_gun(file, root))
+    button_pulsar = Button(root, text='Pulsar', command= lambda: file_pulsar(file, root))
+    
+    
+    # Griding buttons
+    button_glider.grid(row=1, column=0)
+    button_glider_gun.grid(row=1, column=1)
+    button_pulsar.grid(row=1, column=2)
+    
+    
+    
+
+    # make some images to show the patterns and put them under the buttons!
+    
+    
+    root.mainloop()
+    
+    return file.get()
 
