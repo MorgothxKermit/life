@@ -1,6 +1,8 @@
 import numpy as np
 from multiprocessing import Process
 from tkinter import *
+from PIL import ImageTk
+from PIL import Image
 
 
 def file_glider(file, root):
@@ -33,42 +35,42 @@ def check_neighbours(board):
             cell = board[i][j]
             nmb_of_neigh = 0
             try:
-                if board[i+1][j-1] == 'X': # checking all the surrounding cells
+                if board[i+1][j-1] == alive_cell: # checking all the surrounding cells
                     nmb_of_neigh += 1
             except IndexError:
                 pass
             try:
-                if board[i+1][j] == 'X':
+                if board[i+1][j] == alive_cell:
                     nmb_of_neigh += 1
             except IndexError:
                 pass
             try:
-                if board[i+1][j+1] == 'X':
+                if board[i+1][j+1] == alive_cell:
                     nmb_of_neigh += 1
             except IndexError:
                 pass
             try:
-                if board[i][j-1] == 'X':
+                if board[i][j-1] == alive_cell:
                     nmb_of_neigh += 1
             except IndexError:
                 pass
             try:
-                if board[i][j+1] == 'X':
+                if board[i][j+1] == alive_cell:
                     nmb_of_neigh += 1
             except IndexError:
                 pass
             try:
-                if board[i-1][j-1] == 'X':
+                if board[i-1][j-1] == alive_cell:
                     nmb_of_neigh += 1
             except IndexError:
                 pass
             try:
-                if board[i-1][j] == 'X':
+                if board[i-1][j] == alive_cell:
                     nmb_of_neigh += 1
             except IndexError:
                 pass
             try:
-                if board[i-1][j+1] == 'X':
+                if board[i-1][j+1] == alive_cell:
                     nmb_of_neigh += 1
             except IndexError:
                 pass
@@ -89,6 +91,13 @@ def check_neighbours(board):
 def game_window():
     root = Tk()
     
+    img_glider = ImageTk.PhotoImage(Image.open('glider.png'))
+    img_glider_gun = ImageTk.PhotoImage(Image.open('glider_gun.png'))
+    img_pulsar = ImageTk.PhotoImage(Image.open('pulsar.png'))
+    glider_image = Label(root, image=img_glider)
+    glider_gun_image = Label(root, image=img_glider_gun)
+    pulsar_image = Label(root, image=img_pulsar) 
+    
     file = StringVar()
     header = Label(root, text='Which pattern do you want to see evolve?').grid(row=0, column=1, columnspan=2)
     
@@ -101,11 +110,12 @@ def game_window():
     
     # Griding buttons
     button_glider.grid(row=1, column=0)
-    button_glider_gun.grid(row=1, column=1)
-    button_pulsar.grid(row=1, column=2)
+    button_glider_gun.grid(row=2, column=0)
+    button_pulsar.grid(row=3, column=0)
     
-    
-    
+    glider_image.grid(row=1, column=1)
+    glider_gun_image.grid(row=2, column=1)
+    pulsar_image.grid(row=3, column=1)
 
     # make some images to show the patterns and put them under the buttons!
     
