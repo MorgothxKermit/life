@@ -1,12 +1,11 @@
 import numpy as np
-import time
 import functions as life
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+
+# remove the posibility of having a warning, when the plot could be too "big"
 plt.rc('figure', max_open_warning=0)
-
-
 file_name = life.game_window()
 
 with open(file_name, 'r') as file:
@@ -29,9 +28,9 @@ game_board = board.copy()
     print('\n')
     for j in range(0, board.shape[1]):
         print(board[i][j], end='')
-"""
-#print('\n', game_board)
-"""while True:
+
+print('\n', game_board)
+while True:
     # main functionality, changes the board into next turn
     game_board = life.check_neighbours(game_board)
     print('\n'*10)
@@ -46,6 +45,9 @@ game_board = board.copy()
                 print('.', end='')
     time.sleep(0.5)
 """
+# the above comment is completely useless, it's just for me if I ever want to go back 
+# to printing my result.
+
 
 def animate(n):
     global game_board
