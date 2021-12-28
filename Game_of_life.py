@@ -1,3 +1,4 @@
+from os import read
 import numpy as np
 import functions as life
 import matplotlib.pyplot as plt
@@ -6,7 +7,8 @@ import matplotlib.animation as animation
 
 # remove the posibility of having a warning, when the plot could be too "big"
 plt.rc('figure', max_open_warning=0)
-file_name = life.game_window()
+game_window = life.game_window()
+file_name = game_window[0]
 
 with open(file_name, 'r') as file:
     read_from_file = file.read()
@@ -15,12 +17,21 @@ with open(file_name, 'r') as file:
 board = []
 
 read_from_file = read_from_file.split()
-for i in range(0, len(read_from_file)-1):
-    temp_list = [1 if j == 'X' else 0 for j in read_from_file[i]]
-    board.append(temp_list)
+#print(read_from_file)
+if file_name != 'random.txt':
+    for i in range(0, len(read_from_file)):
+       temp_list = [1 if j == 'X' or j == 1 else 0 for j in read_from_file[i]]
+       board.append(temp_list)
+    board = np.array(board)
+else:
+    read_from_file = ''.join(read_from_file)
+    read_from_file = read_from_file.split()
+    for i in range(0, len(read_from_file)):
+       temp_list = [1 if j == '1' else 0 for j in read_from_file[i]]
+       board.append(temp_list)
+    board = np.array(board).reshape(game_window[1], game_window[2])
 
 board = np.array(board)
-
 # I encountered a certain problem with the function, as if board was global, a quick fix was done
 game_board = board.copy()
 

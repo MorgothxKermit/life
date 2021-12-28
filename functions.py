@@ -1,22 +1,60 @@
+from matplotlib.pyplot import text
 import numpy as np
 from multiprocessing import Process
 from tkinter import *
 from PIL import ImageTk
 from PIL import Image
 
+def dimensions(dimensions_entry1,dimensions_entry2, root, file):
+    global rows
+    global columns
+    rows = int(dimensions_entry1.get())
+    columns = int(dimensions_entry2.get())
+    board_array = np.zeros((rows, columns))
+    for i in range(0, rows):
+        for j in range(0, columns):
+            board_array[i, j] = int(np.random.randint(0,2))
+    np.savetxt('random.txt', board_array, '%1g')
+    file.set('random.txt')
+    root.destroy()
+
+
+def generate_random_board(root, file):
+    text1 = StringVar()
+    text1.set('Enter number of rows')
+    text2 = StringVar()
+    text2.set('Enter number of columns')
+    dimensions_entry1 = Entry(root, text=text1)
+    dimensions_entry2 = Entry(root, text=text2)
+    send_button = Button(root, text='Send required dimensions!', command=lambda: dimensions(dimensions_entry1, dimensions_entry2, root, file)
+                         ,width=40)
+    
+    dimensions_entry1.grid(row=5, column=1, sticky='E')
+    dimensions_entry2.grid(row=5, column=2)
+    send_button.grid(row=6, column=1, columnspan=2, sticky='E')
+    print(rows.get())
 
 def file_glider(file, root):
     file.set('glider.txt')
+    global rows
+    global columns
+    rows, columns = '',''
     root.destroy()
 
 
 def file_pulsar(file, root):
     file.set('pulsar.txt')
+    global rows
+    global columns
+    rows, columns = '',''
     root.destroy()
 
 
 def file_gun(file, root):
     file.set('gosper-glider-gun.txt')
+    global rows
+    global columns
+    rows, columns = '',''
     root.destroy()
 
 
@@ -106,18 +144,18 @@ def game_window():
         root, text='Gosper_glider_gun', command=lambda: file_gun(file, root))
     button_pulsar = Button(root, text='Pulsar',
                            command=lambda: file_pulsar(file, root))
+    button_random = Button(root, text='Random', width=40,command=lambda: generate_random_board(root, file))
 
     # Griding buttons
     button_glider.grid(row=1, column=0)
     button_glider_gun.grid(row=2, column=0)
     button_pulsar.grid(row=3, column=0)
+    button_random.grid(row=4, column=0, columnspan=2)
 
     glider_image.grid(row=1, column=1)
     glider_gun_image.grid(row=2, column=1)
     pulsar_image.grid(row=3, column=1)
 
     # make some images to show the patterns and put them under the buttons! Just above this comment
-
     root.mainloop()
-
-    return file.get()
+    return [file.get(), rows, columns]
